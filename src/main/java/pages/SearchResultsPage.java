@@ -2,9 +2,16 @@ package pages;
 
 import org.openqa.selenium.WebDriver;
 
-public class SearchResultsPage extends BasePage{
+import static utility.Constants.ERROR_TXT.NOT_RIGHT_PAGE_TITLE;
+import static utility.Constants.PAGE_TITLES.BASIC_TITLE_SEARCH_RESULT_PAGE;
+
+
+public class SearchResultsPage extends BasePage {
 
     public SearchResultsPage(WebDriver driver) {
         super(driver);
+        if (!driver.getTitle().contains(BASIC_TITLE_SEARCH_RESULT_PAGE)) {
+            throw new IllegalStateException(NOT_RIGHT_PAGE_TITLE);
+        }
     }
 }
