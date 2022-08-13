@@ -1,14 +1,32 @@
 package tests;
 
+import jdk.jfr.Description;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.MainPage;
 
-public class MainPageBaseTests extends BaseTest{
+import static utility.Constants.ERROR_TXT.WRONG_NUMBER_OF_HINTS;
+import static utility.Constants.EXPECTED_HINTS.EXPECTED_DESTINATION_HINTS_NUMBER;
+
+public class MainPageBaseTests extends BaseTest {
 
     @Test
-    public void destinationFieldFiltersChecks() throws InterruptedException {
-        mainPage.checkNumberHintsDropDownDestinations();
-        mainPage.checkByLetterFiltrationHintsDropDownDestinations();
+    @Description("1.1 Check number of hints after enter a letter in destination field")
+    public void checkNumberOfHintsInDestinationField() {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.openMainPage();
 
-        //тут могут быть ассерты, а в отдельном пакете ниже создать именно тесты @Test, если не делать ассерты в main
+        int actualNumberOfHints = mainPage.getNumberOfHintsINDropDownDestinations();
+
+        Assert.assertEquals(actualNumberOfHints, EXPECTED_DESTINATION_HINTS_NUMBER, WRONG_NUMBER_OF_HINTS);
+    }
+
+    @Test
+    @Description("1.2 Check sorting after specifying destination")
+    public void checkFiltrationInDestinationField() {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.openMainPage();
+
+        mainPage.checkByLetterFiltrationHintsDropDownDestinations();
     }
 }
