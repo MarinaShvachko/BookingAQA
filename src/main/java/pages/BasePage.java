@@ -5,6 +5,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 public class BasePage {
     static final Logger log = Logger.getLogger(BasePage.class);
     protected WebDriver driver;
@@ -14,16 +18,22 @@ public class BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    //общие методы для всех страниц
-//    protected WebElement find (By locator) {
-//        return driver.findElement(locator);
-//    }
-//    protected void type (String text, By locator) {
-//        find(locator).sendKeys(text);
-//    }
-//    protected void click (By locator) {
-//        find(locator).click();
-//    }
+    //TODO: change if null , set a current date
+    public WebElement findDateInCalendar(LocalDateTime dateToFind, List<WebElement> dates) {
+
+        String formattedDate = dateToFind.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        WebElement dataToClick = null;
+
+        for (WebElement date : dates) {
+            if (date.getAttribute("data-date") == null) {
+                continue;
+            } else if (date.getAttribute("data-date").equals(formattedDate)) {
+                dataToClick = date;
+                break;
+            }
+        }
+        return dataToClick;
+    }
 
     public void sendKeys(WebElement field, String whatToType) {
         field.sendKeys(whatToType);
